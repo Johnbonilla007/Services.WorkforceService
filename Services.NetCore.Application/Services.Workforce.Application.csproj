@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Services.NetCore.Crosscutting\Services.Workforce.Crosscutting.csproj" />
+    <ProjectReference Include="..\Services.NetCore.Domain\Services.Workforce.Domain.csproj" />
+    <ProjectReference Include="..\Services.NetCore.Infraestructure\Services.Workforce.Infraestructure.csproj" />
+  </ItemGroup>
+
+</Project>
