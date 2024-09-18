@@ -8,8 +8,7 @@ namespace Services.NetCore.Infraestructure.Mapping.Commons
     {
         public CommonsProfile()
         {
-            CreateMap<Product, ProduceDto>();
-            CreateMap<ProduceDto, Product>();
+
         }
     }
 }
