@@ -9,7 +9,6 @@ namespace Services.NetCore.WebApi.Controllers
     [Route("api/v1/test1")]
     public class TestController : ControllerBase
     {
-       
 
         [HttpGet]
         [Route("")]
