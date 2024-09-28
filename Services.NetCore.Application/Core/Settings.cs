@@ -4,6 +4,7 @@
     {
         public const string AddUser = nameof(AddUser);
         public const string UpdateUser = nameof(UpdateUser);
+        public const string providerDoesntExist = nameof(providerDoesntExist);
     }
     public static class SchemaTypes
     {
