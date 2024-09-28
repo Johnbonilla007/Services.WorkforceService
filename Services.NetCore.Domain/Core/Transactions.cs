@@ -6,5 +6,8 @@
         public const string Update = nameof(Update);
         public const string CreateLogException = nameof(CreateLogException);
         public const string Added = nameof(Added);
+        public const string CreateService = nameof(CreateService);
+        public const string DeleteService = nameof(DeleteService);
+        public const string UpdateService = nameof(UpdateService);
     }
 }
