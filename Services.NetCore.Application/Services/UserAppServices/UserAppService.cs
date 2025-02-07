@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using Services.NetCore.Application.Core;
 using Services.NetCore.Domain.Core;
 using Services.NetCore.Infraestructure.Core;
@@ -35,6 +34,8 @@ namespace Services.Workforce.Application.Services.UserAppServices
                 return new UserResponse { ValidationErrorMessage = "Cantraseña Incorrecta" };
             }
             var userDto = _mapper.Map<UserDto>(user);
+            userDto.Password = string.Empty;
+            userDto.Id = user.Id;
 
             return new UserResponse
             {
@@ -46,34 +47,40 @@ namespace Services.Workforce.Application.Services.UserAppServices
         public async Task<UserResponse> CreateOrUpdateUser(CreateOrUpdateUserRequest createOrUpdateUserRequest)
         {
             ThrowIf.Argument.IsNull(createOrUpdateUserRequest, nameof(createOrUpdateUserRequest));
+            var userDto = createOrUpdateUserRequest.User;
+            if (createOrUpdateUserRequest.User.Id == 0)
+            {
+                var userExistence = await _repository.GetSingleAsync<User>(x => x.PhoneNumber == userDto.PhoneNumber || x.UserName == userDto.UserName);
+                if (userExistence != null) return new UserResponse { ValidationErrorMessage = Settings.userAlreadyExist };
+            }
 
-            var user = await _repository.GetSingleAsync<User>(x => x.Id == createOrUpdateUserRequest.Id);
-            string password = Encrypt.GetSHA256(createOrUpdateUserRequest.Password);
+
+            var user = await _repository.GetSingleAsync<User>(x => x.Id == createOrUpdateUserRequest.User.Id);
+            string password = Encrypt.GetSHA256(createOrUpdateUserRequest.User.Password);
             TransactionInfo transactionInfo;
 
             if (user == null)
             {
-                user = new User
-                {
-                    Password = password,
-                    FullName = createOrUpdateUserRequest.FullName,
-                    UserName = createOrUpdateUserRequest.UserName
-                };
-
+                user = _mapper.Map<User>(createOrUpdateUserRequest.User);
+                user.Password = password;
+                createOrUpdateUserRequest.RequestUserInfo.CreatedBy = user.UserName;
                 transactionInfo = TransactionInfoFactory.CrearTransactionInfo(createOrUpdateUserRequest.RequestUserInfo, Settings.AddUser);
-                await _repository.AddAsync(user, transactionInfo);
+                await _repository.AddAsync(user);
             }
             else
             {
                 user.Password = password;
-                user.FullName = createOrUpdateUserRequest.FullName;
-                user.UserName = createOrUpdateUserRequest.UserName;
+                user.FullName = createOrUpdateUserRequest.User.FullName;
+                user.UserName = createOrUpdateUserRequest.User.UserName;
+                user.Email = createOrUpdateUserRequest.User.Email;
+                user.PhoneNumber = createOrUpdateUserRequest.User.PhoneNumber;
+                user.Genre = createOrUpdateUserRequest.User.Genre;
                 transactionInfo = TransactionInfoFactory.CrearTransactionInfo(createOrUpdateUserRequest.RequestUserInfo, Settings.UpdateUser);
             }
 
             await _repository.UnitOfWork.CommitAsync(transactionInfo);
 
-            return new UserResponse { Success = true };
+            return await AuthenticateUser(new AuthenticateUserRequest { UserName = user.UserName, Password = createOrUpdateUserRequest.User.Password });
         }
     }
 }

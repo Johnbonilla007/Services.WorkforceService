@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Services.NetCore.Crosscutting.Resources;
 using Services.NetCore.Domain.Core;
+using Services.Workforce.Domain.Aggregates.AddressAgg;
 
 namespace Services.Workforce.Domain.Aggregates.UserAgg
 {
@@ -11,10 +12,22 @@ namespace Services.Workforce.Domain.Aggregates.UserAgg
         [Required, StringLength(50)]
         public string UserName { get; set; }
 
-        [Required, StringLength(200)]
-        public string FullName { get; set; }
-
         [Required, StringLength(500)]
         public string Password { get; set; }
+
+        [Required, StringLength(100)]
+        public string FullName { get; set; }
+
+        [Required, StringLength(100), EmailAddress]
+        public string Email { get; set; }
+
+        [StringLength(15)]
+        public string PhoneNumber { get; set; }
+
+        [Required, StringLength(50)]
+        public string Role { get; set; } = "Customer";
+        public string Genre { get; set; }
+
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

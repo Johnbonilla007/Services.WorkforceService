@@ -12,15 +12,23 @@ namespace Services.Workforce.Domain.Aggregates.ProviderAgg
         public int UserId { get; set; }
 
         [Required]
-        public int ServiceId { get; set; }
-
-        [Required, StringLength(shortVarcharLength)]
-        public string Location { get; set; }
-
-        [Required, Column(TypeName = standardDecimal)]
-        public decimal Rating { get; set; }
-
-        [Required]
         public bool IsVerified { get; set; }
+
+        [Required, StringLength(50)]
+        public string IdentificationNumber { get; set; }
+
+        [StringLength(100)]
+        public string VerificationDocumentFrontPath { get; set; }
+
+        [StringLength(100)]
+        public string VerificationDocumentBackPath { get; set; }
+
+        [StringLength(50)]
+        public string VerificationStatus { get; set; }
+
+        public DateTime? VerificationDate { get; set; }
+
+        [StringLength(100)]
+        public string VerifiedBy { get; set; }
     }
 }

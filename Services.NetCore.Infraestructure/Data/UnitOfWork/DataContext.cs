@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Services.NetCore.Domain.Core;
 using Services.NetCore.Infraestructure.Core;
 using Services.NetCore.Infraestructure.Data.UnitOfWork.Data.Core;
+using Z.Expressions;
 
 namespace Services.NetCore.Infraestructure.Data.UnitOfWork
 {
@@ -235,7 +236,7 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
             Type type = entry.Entity.GetType();
             if (type.FullName != null)
             {
-                if (type.FullName.Contains("ShippingCenter.Domain.Aggregates") || type.FullName.Contains("T4"))
+                if (type.FullName.Contains("Services.Workforce.Domain") || type.FullName.Contains("T4"))
                 {
                     return type;
                 }
@@ -478,6 +479,10 @@ namespace Services.NetCore.Infraestructure.Data.UnitOfWork
 
                     scope.Complete();
                 }
+            }
+            catch (Exception exception)
+            {
+                throw;
             }
             finally
             {

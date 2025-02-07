@@ -6,6 +6,8 @@ using Services.Workforce.Crosscutting.Dtos.User;
 using Services.Workforce.Domain.Aggregates.ServiceAgg;
 using Services.Workforce.Domain.Aggregates.ProviderAgg;
 using Services.Workforce.Domain.Aggregates.UserAgg;
+using Services.Workforce.Domain.Aggregates.ServiceProviderAgg;
+using Services.Workforce.Crosscutting.Dtos.ServiceProvider;
 
 namespace Services.NetCore.Infraestructure.Mapping.Commons
 {
@@ -19,6 +21,8 @@ namespace Services.NetCore.Infraestructure.Mapping.Commons
             CreateMap<ServiceDto, Service>();
             CreateMap<ProviderDto, Provider>();
             CreateMap<Provider, ProviderDto>();
+            CreateMap<ServiceProvider, ServiceProviderDto>();
+            CreateMap<ServiceProviderDto, ServiceProvider>();
         }
     }
 }

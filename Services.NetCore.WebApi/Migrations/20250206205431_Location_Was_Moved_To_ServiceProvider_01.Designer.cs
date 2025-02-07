@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250206205431_Location_Was_Moved_To_ServiceProvider_01")]
+    partial class Location_Was_Moved_To_ServiceProvider_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -571,8 +574,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.HasIndex("ServiceId");
-
                     b.ToTable("ServiceProvider", "Business");
                 });
 
@@ -843,23 +844,10 @@ namespace Services.NetCore.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Services.Workforce.Domain.Aggregates.ServiceAgg.Service", "Service")
-                        .WithMany("ServicesByProvider")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Provider");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Services.Workforce.Domain.Aggregates.ProviderAgg.Provider", b =>
-                {
-                    b.Navigation("ServicesByProvider");
-                });
-
-            modelBuilder.Entity("Services.Workforce.Domain.Aggregates.ServiceAgg.Service", b =>
                 {
                     b.Navigation("ServicesByProvider");
                 });

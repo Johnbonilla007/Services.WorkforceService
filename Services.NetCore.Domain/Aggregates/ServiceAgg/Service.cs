@@ -1,6 +1,7 @@
 ﻿
 using Services.NetCore.Crosscutting.Resources;
 using Services.NetCore.Domain.Core;
+using Services.Workforce.Domain.Aggregates.ServiceProviderAgg;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,5 +19,6 @@ namespace Services.Workforce.Domain.Aggregates.ServiceAgg
         [Required, StringLength(shortVarcharLength)]
         public string IconName { get; set; }
 
+        public virtual ICollection<ServiceProvider> ServicesProvider { get; set; }
     }
 }

@@ -22,10 +22,27 @@ namespace Services.Workforce.WebApi.Controllers.Provider
             return Ok(response);
         }
 
+
+        [HttpGet, Route("servies-by-userId")]
+        public async Task<IActionResult> GetServicesByUserId([FromQuery] int userId)
+        {
+            var response = await _providerAppService.GetServicesByUserId(userId);
+
+            return Ok(response);
+        }
+
         [HttpPost, Route("create-or-update-provider")]
         public async Task<IActionResult> CreateOrUpdateProviderAsync(CreateOrUpdateProviderRequest createOrUpdateProviderRequest)
         {
             var response = await _providerAppService.CreateOrUpdateProviderAsync(createOrUpdateProviderRequest);
+
+            return Ok(response);
+        }
+
+        [HttpPost, Route("update-services-by-provider")]
+        public async Task<IActionResult> UpdateServicesByProvider(UpdateServicesByProviderRequest updateServicesByProviderRequest)
+        {
+            var response = await _providerAppService.UpdateServicesByProvider(updateServicesByProviderRequest);
 
             return Ok(response);
         }

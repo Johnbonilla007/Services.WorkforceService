@@ -1,4 +1,5 @@
-﻿using Services.Workforce.Crosscutting.Dtos.Provider;
+﻿using Services.NetCore.Crosscutting.Dtos.Produce;
+using Services.Workforce.Crosscutting.Dtos.Provider;
 
 namespace Services.Workforce.Application.Services.ProviderAppServices
 {
@@ -6,6 +7,8 @@ namespace Services.Workforce.Application.Services.ProviderAppServices
     {
         Task<ProviderResponse> CreateOrUpdateProviderAsync(CreateOrUpdateProviderRequest createOrUpdateProviderRequest);
         Task<ProviderResponse> GetProvidersAsync(string searchValue);
+        Task<ProviderResponse> GetServicesByUserId(int userId);
         Task<ProviderResponse> DeleteProviderAsync(DeleteProviderRequest deleteProviderRequest);
+        Task<ResponseBase> UpdateServicesByProvider(UpdateServicesByProviderRequest updateServicesByProviderRequest);
     }
 }

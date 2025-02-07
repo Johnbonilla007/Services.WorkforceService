@@ -12,5 +12,10 @@
         public const string CreateProvider = nameof(CreateProvider);
         public const string UpdateProvider = nameof(UpdateProvider);
         public const string DeleteProvider = nameof(DeleteProvider);
+        public const string CreateAddress = nameof(CreateAddress);
+        public const string UpdateAddress = nameof(UpdateAddress);
+        public const string DeleteAddress = nameof(DeleteAddress);
+        public const string SetAsDefaultAddress = nameof(SetAsDefaultAddress);
+        public const string UpdateServicesByProvider = nameof(UpdateServicesByProvider);
     }
 }

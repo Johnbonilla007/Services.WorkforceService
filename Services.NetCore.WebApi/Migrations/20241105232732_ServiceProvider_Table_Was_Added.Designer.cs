@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.NetCore.Infraestructure.Data.UnitOfWork;
 
@@ -11,9 +12,11 @@ using Services.NetCore.Infraestructure.Data.UnitOfWork;
 namespace Services.NetCore.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241105232732_ServiceProvider_Table_Was_Added")]
+    partial class ServiceProvider_Table_Was_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,6 +228,12 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<bool>("IsVerified")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50)
                         .IsUnicode(false)
@@ -310,6 +319,12 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.Property<bool>("IsVerified")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50)
@@ -520,12 +535,6 @@ namespace Services.NetCore.WebApi.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50)
                         .IsUnicode(false)
@@ -571,8 +580,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.HasIndex("ServiceId");
-
                     b.ToTable("ServiceProvider", "Business");
                 });
 
@@ -592,12 +599,6 @@ namespace Services.NetCore.WebApi.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50)
@@ -843,23 +844,10 @@ namespace Services.NetCore.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Services.Workforce.Domain.Aggregates.ServiceAgg.Service", "Service")
-                        .WithMany("ServicesByProvider")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Provider");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Services.Workforce.Domain.Aggregates.ProviderAgg.Provider", b =>
-                {
-                    b.Navigation("ServicesByProvider");
-                });
-
-            modelBuilder.Entity("Services.Workforce.Domain.Aggregates.ServiceAgg.Service", b =>
                 {
                     b.Navigation("ServicesByProvider");
                 });
